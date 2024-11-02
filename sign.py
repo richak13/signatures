@@ -1,23 +1,16 @@
-import eth_account
-from web3 import Web3
 from eth_account import Account
 from eth_account.messages import encode_defunct
 
-
 def sign(m):
-    w3 = Web3()
-    
     # Generate a new Ethereum account
     account = Account.create()
     eth_address = account.address  # Account address derived from public key
-    private_key = account.privateKey  # Account private key for signing
     
     # Encode the message
     message = encode_defunct(text=m)
     
-    # Sign the message using the private key
+    # Sign the message using the account object
     signed_message = account.sign_message(message)
     
-    assert isinstance(signed_message, eth_account.datastructures.SignedMessage)
-    
+    # Return both the Ethereum address and the signature
     return eth_address, signed_message
